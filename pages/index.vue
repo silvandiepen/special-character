@@ -23,23 +23,22 @@
         </tr>
       </table>
     </column>
-
-      <column small="full" medium="2:3" class="bg-white column-list">
-        <table>
-          <tr>
-            <td></td>
-            <td v-for="a in add">
-            {{a}}
+    <column small="full" medium="2:3" class="bg-white column-list">
+      <table>
+        <tr>
+          <td></td>
+          <td v-for="a in add">
+          {{a}}
+          </td>
+        </tr>
+          <tr v-for="c in characters">
+            <td class="bg-dark">{{c}}</td>
+            <td v-for="a in add" v-on:click="current = toChar(c,a)" :class="current ? toChar(c,a) : 'active'">
+              <span v-html="toChar(c,a)"></span>
+              <span class="zoom" v-html="toChar(c,a)"></span>
             </td>
           </tr>
-            <tr v-for="c in characters">
-              <td class="bg-dark">{{c}}</td>
-              <td v-for="a in add" v-on:click="current = toChar(c,a)" :class="current ? toChar(c,a) : 'active'">
-                <span v-html="toChar(c,a)"></span>
-                <span class="zoom" v-html="toChar(c,a)"></span>
-              </td>
-            </tr>
-        </table>
+      </table>
     </column>
   </row>
   </section>
@@ -65,8 +64,8 @@ export default {
 };
 </script>
 <style lang="scss">
-html,body{
-
+html,
+body {
   //  font-family: sans-serif;
 }
 table td {
@@ -74,13 +73,26 @@ table td {
   text-align: center;
   position: relative;
   &:first-child {
-    border-bottom: 2px solid rgba(255,255,255,.2);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
   }
 }
-.zoom{ position: absolute; width: 100%; height: 100%; top: 0; left: 0; padding: inherit;
-transform: scale(1); transition: transform .15s, box-shadow .3s; text-align: center;
-background-color: white; box-shadow: 0 0 0rem 0 rgba(0,0,0,.25);
-  &:hover{transform: scale(1.5); z-index: 2; box-shadow: 0 0 1rem 0 rgba(0,0,0,.25);  }
+.zoom {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  padding: inherit;
+  transform: scale(1);
+  transition: transform 0.15s, box-shadow 0.3s;
+  text-align: center;
+  background-color: white;
+  box-shadow: 0 0 0rem 0 rgba(0, 0, 0, 0.25);
+  &:hover {
+    transform: scale(1.5);
+    z-index: 2;
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.25);
+  }
 }
 
 .column.active {
@@ -88,20 +100,20 @@ background-color: white; box-shadow: 0 0 0rem 0 rgba(0,0,0,.25);
 }
 .column-list {
   height: 100vh;
-  overflow: scroll ;
+  overflow: scroll;
 }
-.column-detail{
+.column-detail {
   padding: 4vw;
   h1.preview {
     font-family: inherit;
     text-align: center;
     background-color: white;
-    padding: 4vw; color: var(--color-dark);
+    padding: 4vw;
+    color: var(--color-dark);
   }
-  .info{
-    background-color: rgba(255,255,255,.2);
+  .info {
+    background-color: rgba(255, 255, 255, 0.2);
   }
-
 }
 small {
   font-size: 10px;
