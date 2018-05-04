@@ -1,41 +1,49 @@
-//- <template lang="pug">
-//-   .container
-//-     row(center)
-//-       column(medium="2:3")
-//-         table
-//-           tr
-//-             td(v-for="a in add") {{a}}
-//-           tr(v-for="c in characters")
-//-             td(v-for="b in add")
-//-               p !{"&{{c}}{{b}};"}
-//- </template>
 <template>
   <section>
   <row>
-    <column small="full" medium="1:3" class="bg-dark column-detail">
-      <h2>Whuttt.. special characters</h2>
-        <h1 class="preview" v-if="current" v-html="current"></h1>
-      <table class="info" v-if="current">
+    <column medium="1:3" class="column-detail" v-if="current.length > 1">
+      <h2>Character</h2>
+      <h1 class="preview" v-html="toChar(current,'html')"></h1>
+      <table class="info">
         <tr>
           <td>
-          {{current}}
+          html
+          </td>
+          <td>
+           <span>&</span><span>#x</span>{{current[0]}}{{current[1]}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+          css
+          </td>
+          <td>
+          \{{current[0]}}{{current[1]}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+          hex
+          </td>
+          <td>
+          u+{{current[0]}}{{current[1]}}
           </td>
         </tr>
       </table>
     </column>
-    <column small="full" medium="2:3" class="bg-white column-list">
+    <column medium="2:3" class="bg-white column-list">
       <table>
         <tr>
           <td></td>
-          <td v-for="a in add">
+          <td v-for="a in add" :key="a">
           {{a}}
           </td>
         </tr>
-          <tr v-for="c in characters">
-            <td class="bg-dark">{{c}}</td>
-            <td v-for="a in add" v-on:click="current = toChar(c,a)" :class="current ? toChar(c,a) : 'active'">
-              <span v-html="toChar(c,a)"></span>
-              <span class="zoom" v-html="toChar(c,a)"></span>
+          <tr v-for="c in characters" :key="c">
+            <td>{{c}}</td>
+            <td v-for="a in add" v-on:click="setCurrent(c,a)" :class="current ? [c,a] : 'active'" :key="a">
+              <span v-html="toChar([c,a],'html')"></span>
+              <span class="zoom" v-html="toChar([c,a],'html')"></span>
             </td>
           </tr>
       </table>
@@ -50,31 +58,47 @@ import charData from "~/assets/data/chars.json";
 export default {
   data() {
     return {
-      current: null,
+      current: [],
       add: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "a", "b", "c", "d", "e", "f"],
       characters: charData.characters
     };
   },
   methods: {
-    toChar: function(c, a) {
-      return `&#x${c}${a};`;
-      return String.fromCharCode(parseInt(`${c}${a}`));
+    toChar: function(c, type = "") {
+      if (type === "") {
+        return `${c[0]}${c[1]}`;
+      }
+      if (type === "html") {
+        return `&#x${c[0]}${c[1]};`;
+      }
+    },
+    setCurrent: function(c, a) {
+      let _this = this;
+      let current = [c, a];
+      console.log(current);
+      _this.current = current;
     }
   }
 };
 </script>
 <style lang="scss">
-html,
-body {
-  //  font-family: sans-serif;
+@import "~svd-style/ext";
+
+table {
+  min-width: 100%;
 }
 table td {
   font-size: 18px;
   text-align: center;
   position: relative;
   &:first-child {
-    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+    background-color: color(Offwhite);
+    color: color(Black, 0.5);
+    font-size: 0.875rem;
+    font-weight: bold;
   }
+  padding: 0.5rem 0;
+  border-bottom: 1px solid color(Black, 0.25);
 }
 .zoom {
   position: absolute;
@@ -84,6 +108,7 @@ table td {
   left: 0;
   padding: inherit;
   transform: scale(1);
+
   transition: transform 0.15s, box-shadow 0.3s;
   text-align: center;
   background-color: white;
@@ -94,7 +119,6 @@ table td {
     box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.25);
   }
 }
-
 .column.active {
   background-color: var(--color-offwhite);
 }
@@ -107,12 +131,16 @@ table td {
   h1.preview {
     font-family: inherit;
     text-align: center;
-    background-color: white;
     padding: 4vw;
-    color: var(--color-dark);
+    color: color(Black);
+    background-color: color(White);
+    box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.25);
   }
   .info {
-    background-color: rgba(255, 255, 255, 0.2);
+    background-color: color(Black, 0.05);
+  }
+  @media #{$small-only} {
+    border-bottom: 1px solid color(Black, 0.5);
   }
 }
 small {

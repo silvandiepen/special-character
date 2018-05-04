@@ -2,32 +2,57 @@ module.exports = {
   /*
   ** Headers of the page
   */
-  head: {},
+  head: {
+    title: "Special Characters",
+    meta: [
+      { charset: "utf-8" },
+      { name: "viewport", content: "width=device-width, initial-scale=1" },
+      {
+        hid: "description",
+        name: "description",
+        content: "Special Characters"
+      },
+      { name: "msapplication-TileColor", content: "#ffffff" },
+      {
+        name: "msapplication-TileImage",
+        content: "/favicon/ms-icon-144x144.png"
+      },
+      { name: "theme-color", content: "#ffffff" }
+    ]
+  },
   /*
   ** Customize the progress bar color
   */
-  loading: { color: '#3B8070' },
+  loading: { color: "#3B8070" },
   /*
   ** Build configuration
   */
   plugins: [
     {
-      src: "~/plugins/svd-vue-components"  }
+      src: "~/plugins/svd-vue-components"
+    }
   ],
+  modules: ["nuxt-rfg-icon", "@nuxtjs/manifest", "@nuxtjs/pwa"],
+
   build: {
     postcss: {
       plugins: {
-        "postcss-custom-properties": false
+        "postcss-cssnext": {
+          browsers: ["last 2 versions", "ie >= 9"],
+          features: {
+            customProperties: false
+          }
+        }
       }
     },
-    extend (config, { isDev, isClient }) {
+    extend(config, { isDev, isClient }) {
       if (isDev && isClient) {
         config.module.rules.push({
-          enforce: 'pre',
+          enforce: "pre",
           test: /\.(js|vue)$/,
-          loader: 'eslint-loader',
+          loader: "eslint-loader",
           exclude: /(node_modules)/
-        })
+        });
       }
     }
   },
@@ -37,4 +62,4 @@ module.exports = {
       lang: "scss"
     }
   ]
-}
+};

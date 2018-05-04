@@ -5,7 +5,7 @@
   "author": "me@silvandiepen.com",
   "private": true,
   "scripts": {
-    "dev": "nuxt",
+    "dev": "cross-env HOST=0.0.0.0 PORT=3750 nuxt",
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
@@ -13,14 +13,16 @@
     "precommit": "npm run lint"
   },
   "dependencies": {
+    "@nuxtjs/pwa": "^2.0.8",
     "autoprefixer": "^8.3.0",
     "cross-env": "^5.1.4",
     "node-sass": "^4.8.3",
     "nuxt": "^1.0.0",
+    "nuxt-rfg-icon": "^0.4.2",
     "pug": "^2.0.3",
     "sass-loader": "^7.0.1",
-    "svd-style": "^1.5.22",
-    "svd-vue-components": "^0.1.0"
+    "svd-style": "^1.5.24",
+    "svd-vue-components": "^0.1.5"
   },
   "devDependencies": {
     "babel-eslint": "^8.2.1",
