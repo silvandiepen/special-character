@@ -1,35 +1,37 @@
 <template>
   <section>
   <row>
-    <column medium="1:3" class="column-detail" v-if="current.length > 1">
-      <h2>Character</h2>
-      <h1 class="preview" v-html="toChar(current,'html')"></h1>
-      <table class="info">
-        <tr>
-          <td>
-          html
-          </td>
-          <td>
-           <span>&</span><span>#x</span>{{current[0]}}{{current[1]}}
-          </td>
-        </tr>
-        <tr>
-          <td>
-          css
-          </td>
-          <td>
-          \{{current[0]}}{{current[1]}}
-          </td>
-        </tr>
-        <tr>
-          <td>
-          hex
-          </td>
-          <td>
-          u+{{current[0]}}{{current[1]}}
-          </td>
-        </tr>
-      </table>
+    <column medium="1:3" class="column-detail">
+      <div v-if="current.length > 1">
+        <h2>Character</h2>
+        <h1 class="preview" v-html="toChar(current,'html')"></h1>
+        <table class="info">
+          <tr>
+            <td>
+            html
+            </td>
+            <td>
+            <span>&</span><span>#x</span>{{current[0]}}{{current[1]}}
+            </td>
+          </tr>
+          <tr>
+            <td>
+            css
+            </td>
+            <td>
+            \{{current[0]}}{{current[1]}}
+            </td>
+          </tr>
+          <tr>
+            <td>
+            hex
+            </td>
+            <td>
+            u+{{current[0]}}{{current[1]}}
+            </td>
+          </tr>
+        </table>
+      </div>
     </column>
     <column medium="2:3" class="bg-white column-list">
       <table>
