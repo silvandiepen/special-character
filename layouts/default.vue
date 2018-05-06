@@ -6,9 +6,12 @@ div
 				h3.logo characters
 	main.bg-white
 		<nuxt></nuxt>
+	svd-footer
 </template>
 <script>
+import svdFooter from "svd-footer/src/components/svd-footer.vue";
+
 export default {
-  components: {}
+  components: { svdFooter }
 };
 </script>
