@@ -8,6 +8,12 @@ div
 		<nuxt></nuxt>
 	svd-footer
 </template>
+<style lang="scss">
+@import "~svd-style/ext";
+header {
+  padding: grid(1);
+}
+</style>
 <script>
 import svdFooter from "svd-footer/src/components/svd-footer.vue";
 
