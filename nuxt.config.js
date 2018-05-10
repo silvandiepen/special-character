@@ -30,6 +30,10 @@ module.exports = {
   plugins: [
     {
       src: "~/plugins/svd-vue-components"
+    },
+    {
+      src: "~/plugins/localStorage.js",
+      ssr: false
     }
   ],
   modules: ["nuxt-rfg-icon", "@nuxtjs/manifest", "@nuxtjs/pwa"],
