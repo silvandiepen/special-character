@@ -22,8 +22,9 @@
     "pug": "^2.0.3",
     "sass-loader": "^7.0.1",
     "svd-footer": "0.0.14",
-    "svd-style": "^1.5.25",
+    "svd-style": "^1.5.28",
     "svd-vue-components": "^0.1.5",
+    "vueinview": "github:rachmanzz/vue-inview",
     "vuex-persistedstate": "^2.5.2"
   },
   "devDependencies": {

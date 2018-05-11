@@ -1,40 +1,38 @@
 <template>
-  <section >
+  <section>
   <row>
     <column medium="1:3" class="column-detail bg-dark">
       <div class="panels__panel panels__panel--preview" v-if="$store.state.current.selected !== null">
-        <div class="preview" ref="preview" :class="previewState">
+        <div class="preview">
           <span class="preview__character" v-html="toChar($store.state.current.selected,'html')"></span>               
+          <button class="preview__button button button--rounded button-purple" v-on:click="addToSelected()">Add to selected</button>
         </div>
-        <button class="preview__button button button--rounded button-purple" data-icon-after="➕" v-on:click="addToSelected()">Add to selected</button>
 
-        <table class="infotable">       
-          <tbody>
-            <tr class="infotable__row ">
-              <td class="infotable__item infotable__item--first"> 
-              html 
-              </td>
-              <td class="infotable__item infotable__item--char">
-              <span>&</span><span>#x</span>{{$store.state.current.selected}}
-              </td>
-            </tr>
-            <tr class="infotable__row">
-              <td class="infotable__item infotable__item--first">
-              css
-              </td>
-              <td class="infotable__item infotable__item--char">
-              \{{$store.state.current.selected}}
-              </td>
-            </tr>
-            <tr class="infotable__row">
-              <td class="infotable__item infotable__item--first">
-              hex
-              </td>
-              <td class="infotable__item infotable__item--char">
-              u+{{$store.state.current.selected}}
-              </td>
-            </tr>
-          </tbody>
+        <table class="infotable">
+          <tr class="infotable__row ">
+            <td class="infotable__item infotable__item--first"> 
+            html 
+            </td>
+            <td class="infotable__item infotable__item--char">
+            <span>&</span><span>#x</span>{{$store.state.current.selected}}
+            </td>
+          </tr>
+          <tr class="infotable__row">
+            <td class="infotable__item infotable__item--first">
+            css
+            </td>
+            <td class="infotable__item infotable__item--char">
+            \{{$store.state.current.selected}}
+            </td>
+          </tr>
+          <tr class="infotable__row">
+            <td class="infotable__item infotable__item--first">
+            hex
+            </td>
+            <td class="infotable__item infotable__item--char">
+            u+{{$store.state.current.selected}}
+            </td>
+          </tr>
         </table>
       </div>
       <div class="panels__panel panels__panel--selected selected" v-if="$store.state.selected.length > 0">
@@ -47,35 +45,32 @@
           </li>
         </ul>
         <button class="button button--rounded button-purple" v-if="!savingCollection" v-on:click="savingCollection = true">Save collection</button>
-        <div v-if="savingCollection" class="addForm">            
+        <form v-if="savingCollection" class="addForm">            
           <label>Collection name:</label>
           <div class="input-single">
             <input type="text" v-model="$store.state.current.collectionName" />         
             <button class="button button--green" v-on:click="saveCollection()">Save</button>
           </div>
-        </div>
+        </form>
       </div>
        <div class="panels__panel panel__panel--collection collection" v-if="$store.state.collections.length > 0">
         <ul class="collection__list">
           <li class="collection__item" v-for="col in $store.state.collections" :key="col.title">
             <a class="collection__link">
-              <span class="collection__preview" v-html="toChar(col.items[0],'html')"></span>
               <span class="collection__title">{{col.title}}</span>
             </a>
           </li>
         </ul>
       </div>
     </column>
-    <column medium="2:3" class="bg-white column-list" v-on:scroll.passive="listScroll">
+    <column medium="2:3" class="bg-white column-list">
       <table class="chars">
-        <thead>
-          <tr class="chars__top">
-            <td class="chars__first"></td>
-            <td class="chars__number" v-for="a in add" :key="a">
-            {{a}}
-            </td>
-          </tr>
-        </thead>
+        <tr class="chars__top">
+          <td class="chars__first"></td>
+          <td class="chars__number" v-for="a in add" :key="a">
+          {{a}}
+          </td>
+        </tr>
         
         <tbody class="chars__group" v-for="c in total" :key="c">
           <tr class="chars__row" v-for="b in add" :key="b">
@@ -88,9 +83,6 @@
           </tr>
         </tbody>
       </table>
-      <div class="loadmore" v-inview:enter="loadmore">
-        <button class="button button--purple button--rounded" data-icon-after="↓" v-on:click="loadmore">Load more</button>
-      </div>
     </column>
   </row>
   <div class="warning" ref="warning"></div>
@@ -98,16 +90,11 @@
 </template>
 
 <script>
-import Inview from "vueinview";
-import Vue from "vue";
-Vue.use(Inview);
-
 export default {
   data() {
     return {
-      previewState: "",
       savingCollection: false,
-      total: 10,
+      total: 27,
       add: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, "a", "b", "c", "d", "e", "f"]
     };
   },
@@ -115,13 +102,6 @@ export default {
     // console.log(this.$store);
   },
   methods: {
-    loadmore: function() {
-      let _this = this;
-      console.log("hoi");
-      if (_this.total < 100) {
-        _this.total = _this.total + 10;
-      }
-    },
     toChar: function(c, type = "") {
       if (typeof c == "string") {
         c = c;
@@ -154,18 +134,7 @@ export default {
       }
       // let current = [c, a];
       console.log(current);
-      // _this.$refs.preview.classList.add("preview-out");
-      _this.previewState = "preview-out";
-      setTimeout(function() {
-        // _this.$refs.preview.classList.remove("preview-out");
-        // _this.$refs.preview.classList.add("preview-in");
-        _this.previewState = "preview-in";
-        _this.$store.state.current.selected = current;
-        setTimeout(function() {
-          // _this.$refs.preview.classList.remove("preview-in");
-          _this.previewState = "";
-        }, 500);
-      }, 500);
+      _this.$store.state.current.selected = current;
     },
     isCurrent: function(char) {
       let _this = this;
@@ -248,7 +217,6 @@ export default {
         items: _this.$store.state.selected
       };
       _this.$store.state.collections.push(currentCollection);
-      console.log(currentCollection);
     }
   }
 };
@@ -260,13 +228,7 @@ $default-color-set: "vibrant";
 table {
   min-width: 100%;
 }
-.button {
-  position: relative;
-}
-.loadmore {
-  text-align: center;
-  padding: grid(2);
-}
+
 .panels {
   &__panel {
     padding: grid(1);
@@ -348,7 +310,6 @@ table {
   overflow: scroll;
 }
 .column-detail {
-  position: relative;
   @media #{$small-only} {
     border-bottom: 1px solid color(Black, 0.5);
   }
@@ -363,52 +324,15 @@ table {
   position: relative;
   z-index: 10;
   border-radius: 0.5rem 0.5rem 0 0;
-  overflow: hidden;
   &__character {
-    transform: translateY(0);
     font-size: grid(1);
-    display: block;
-    // transform: rotate(30deg);
   }
   &__button {
     position: absolute;
-    z-index: 100;
-    // top: 100%;
+    top: 100%;
     left: 50%;
     white-space: nowrap;
     transform: translate(-50%, -50%);
-  }
-  &.preview-out {
-    .preview__character {
-      animation: previewOut 0.3s forwards;
-    }
-  }
-  &.preview-in {
-    .preview__character {
-      animation: previewIn 0.3s forwards;
-    }
-  }
-}
-@keyframes previewOut {
-  0% {
-    transform: translateY(0);
-  }
-  60% {
-    transform: translateY(-10%);
-  }
-  100% {
-    transform: translateY(grid(4));
-  }
-}
-@keyframes previewIn {
-  0% {
-    transform: translateY(-grid(4));
-  }
-  60% {
-    transform: translateY(10%);
-  }
-  100% {
-    transform: translateY(0);
   }
 }
 .infotable {
@@ -489,41 +413,6 @@ small {
       line-height: 1.2rem;
       font-size: 10px;
     }
-  }
-}
-.collection {
-  &__item {
-    border-radius: 0.5rem;
-    background-color: color(White);
-    overflow: hidden;
-    position: relative;
-    padding-left: 3em;
-    & + .collection__item {
-      margin-top: 0.5rem;
-    }
-    @for $i from 0 through 10 {
-      $percentage: (1 - ($i * 0.2));
-      &:nth-child(#{$i}) {
-        .collection__link {
-          display: block;
-          padding: 1em;
-          background-color: color(Green, $percentage);
-        }
-      }
-    }
-  }
-  &__preview {
-    position: absolute;
-    left: 0;
-    width: 3em;
-    top: 0;
-    text-align: center;
-    color: color(Black);
-    line-height: 3em;
-    height: 100%;
-  }
-  &__title {
-    color: color(Black);
   }
 }
 
